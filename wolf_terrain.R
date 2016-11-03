@@ -5,6 +5,9 @@
 
 # Overall plan
 # 1: Make a square matrix with odd dimensions (user defined - check for being odd and a square)
+# 1.1 hold your horses. That is not so easy as it sounds. It must be more than odd, it must remain
+#      odd all the way down the hiearchy of squares. So it must need to be 3 to the power of 
+#      something so check that a) ncol == nrow  AND b) for (i in 1:10): (ncol - 3^1) == 0
 # 2: Pick starting heights for four corners (rnorm?)
 # 3: repeat for all squares that need to be filled:
 #   4: DIAMOND-STEP(matrix)
@@ -21,3 +24,14 @@
 #     5.5: Do this for all sub-squares
 # 6: until Matrix filled with values
 # 7. Convert matrix to terrain using heat map, blue for below zero
+
+#set matrix size
+# start with number of reduction cycles:
+numb.matrix.rows <- function(n, rows=3){
+  for(i in 1:n){
+    rows <- rows + (rows-1)
+  }
+  return(rows)
+}
+print(numb.matrix.rows(3))
+# now make matrix numb.matrix.rows x same
