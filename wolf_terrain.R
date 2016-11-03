@@ -35,3 +35,5 @@ numb.matrix.rows <- function(n, rows=3){
 }
 print(numb.matrix.rows(3))
 # now make matrix numb.matrix.rows x same
+terrain.matrix <- matrix(0, numb.matrix.rows(3), numb.matrix.rows(3))
+print(terrain.matrix)
