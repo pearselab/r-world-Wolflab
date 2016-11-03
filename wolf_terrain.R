@@ -5,9 +5,7 @@
 
 # Overall plan
 # 1: Make a square matrix with odd dimensions (user defined - check for being odd and a square)
-# 1.1 hold your horses. That is not so easy as it sounds. It must be more than odd, it must remain
-#      odd all the way down the hiearchy of squares. So it must need to be 3 to the power of 
-#      something so check that a) ncol == nrow  AND b) for (i in 1:10): (ncol - 3^1) == 0
+#       Note that I now build this a function of how many 'cycles' of reduction is requested.
 # 2: Pick starting heights for four corners (rnorm?)
 # 3: repeat for all squares that need to be filled:
 #   4: DIAMOND-STEP(matrix)
@@ -28,12 +26,19 @@
 #set matrix size
 # start with number of reduction cycles:
 numb.matrix.rows <- function(n, rows=3){
+  if(n > 7){
+    return("too many cycles, please enter smaller number")# This certainly prevents making a matrix
+            # that is too big - but it should give a better error message at the approporiate spot
+  }else{
   for(i in 1:n){
     rows <- rows + (rows-1)
   }
+  }
   return(rows)
 }
-print(numb.matrix.rows(3))
+#print(numb.matrix.rows(6))
 # now make matrix numb.matrix.rows x same
-terrain.matrix <- matrix(0, numb.matrix.rows(3), numb.matrix.rows(3))
+n <- 6
+terrain.matrix <- matrix(0, numb.matrix.rows(n), numb.matrix.rows(n))
 print(terrain.matrix)
+
