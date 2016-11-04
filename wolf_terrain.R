@@ -38,7 +38,7 @@ numb.matrix.rows <- function(n, rows=3){
   return(rows)
 }
 # now make matrix numb.matrix.rows x same
-n <- 3 # number of reduction cycles
+n <- 4 # number of reduction cycles
 
 #print(numb.matrix.rows(n))
 terrain.matrix <- matrix(0, numb.matrix.rows(n), numb.matrix.rows(n))
@@ -60,7 +60,7 @@ terrain.matrix <- initiate.landscape.matrix(terrain.matrix) # corner values adde
 
 diamond.step <- function(terrain.matrix){
   max.rows <- nrow(terrain.matrix)# find number of rows
-  mid.point <- floor(max.rows/2)# find center point
+  mid.point <- (max.rows+1)/2# find center point
   terrain.matrix[mid.point,mid.point] <- mean(c(terrain.matrix[1,1], terrain.matrix[1,max.rows], terrain.matrix[max.rows,1], terrain.matrix[max.rows,max.rows]))
   return(terrain.matrix)
 }
