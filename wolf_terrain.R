@@ -59,7 +59,7 @@ terrain.matrix <- initiate.landscape.matrix(terrain.matrix) # corner values adde
 
 
 diamond.step <- function(tm){
-  max.rows <- nrow(terrain.matrix)# find number of rows
+  max.rows <- nrow(terrain.matrix)# find number of rows. Assume that this function can be applied to matrix subset
   mid.point <- (max.rows+1)/2# find center point
   tm[mid.point,mid.point] <- mean(c(tm[1,1], tm[1,max.rows], tm[max.rows,1], tm[max.rows,max.rows]))
   # Above line just finds the center of matrix and makes it mean of 4 corner values
@@ -71,9 +71,9 @@ terrain.matrix <- diamond.step(terrain.matrix)
 square.step <- function(tm){
   max.rows <- nrow(tm)# find number of rows
   mid.point <- (max.rows+1)/2# find center point
-  # Probably need to create vector of the 4 points first to keep it clean maybe
+  # Probably need to create vector of the 4 points first to keep it clean
   # also need if statement to make sure that if this function is being applied to an external edge,
-  # then only a mean of three, otherwise a mean of four. Maybe look for out of range?
+  # then only a mean of three, otherwise a mean of four values. Maybe look for out of range?
   # so far I have this working only for the first big square with all external edges
   tm[1,mid.point] <- mean(c(tm[1,1], tm[1,max.rows], tm[mid.point, mid.point]))# get top midpoint
   tm[mid.point,1] <- mean(c(tm[1,1], tm[max.rows,1], tm[mid.point, mid.point]))# get left midpoint
