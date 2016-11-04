@@ -72,6 +72,9 @@ square.step <- function(tm){
   max.rows <- nrow(tm)# find number of rows
   mid.point <- (max.rows+1)/2# find center point
   tm[1,mid.point] <- mean(c(tm[1,1], tm[1,max.rows]))# get top midpoint
+  tm[mid.point,1] <- mean(c(tm[1,1], tm[max.rows,1]))# get left midpoint
+  tm[mid.point,max.rows] <- mean(c(tm[1, max.rows], tm[max.rows,max.rows]))# get right midpoint
+  tm[max.rows,mid.point] <- mean(c(tm[max.rows,1], tm[max.rows,max.rows]))# get bottom midpoint
   return(tm) 
 }
 terrain.matrix <- square.step(terrain.matrix) 
