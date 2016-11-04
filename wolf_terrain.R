@@ -48,13 +48,16 @@ terrain.matrix <- matrix(0, numb.matrix.rows(n), numb.matrix.rows(n))
 initiate.landscape.matrix <- function(terrain.matrix){
   max.rows <- nrow(terrain.matrix)# find number of rows
   #use random number generator to set the corners
-  terrain.matrix[1,1] <- 6
-  terrain.matrix[1,max.rows] <- 6
-  terrain.matrix[max.rows,1] <- 6
-  terrain.matrix[max.rows,max.rows] <- 6
+  terrain.matrix[1,1] <- rnorm(1, 1000, 500)
+  terrain.matrix[1,max.rows] <- rnorm(1, 1000, 500)
+  terrain.matrix[max.rows,1] <- rnorm(1, 1000, 500)
+  terrain.matrix[max.rows,max.rows] <- rnorm(1, 1000, 500)
   return(terrain.matrix)
 }
-print(initiate.landscape.matrix(terrain.matrix))
+terrain.matrix <- initiate.landscape.matrix(terrain.matrix) # corner values added
+print(terrain.matrix)
+
+
 #diamond.step <- function(current.matrix){
 #return(updated.matrix)
 
