@@ -55,11 +55,16 @@ initiate.landscape.matrix <- function(terrain.matrix){
   return(terrain.matrix)
 }
 terrain.matrix <- initiate.landscape.matrix(terrain.matrix) # corner values added
-print(terrain.matrix)
+#print(terrain.matrix)
 
 
-#diamond.step <- function(current.matrix){
-#return(updated.matrix)
+diamond.step <- function(terrain.matrix){
+  max.rows <- nrow(terrain.matrix)# find number of rows
+  mid.point <- floor(max.rows/2)# find center point
+  terrain.matrix[mid.point,mid.point] <- mean(c(terrain.matrix[1,1], terrain.matrix[1,max.rows], terrain.matrix[max.rows,1], terrain.matrix[max.rows,max.rows]))
+  return(terrain.matrix)
+}
+print(diamond.step(terrain.matrix))
 
 
 #square.step <- function(current.matrix)
