@@ -21,12 +21,13 @@
 #     5.4: feed that value back to main landscape matrix
 #     5.5: Do this for all sub-squares
 # 6: until Matrix filled with values
+# 7: Run the diamond.square.step to cycle through levels and complete matrix
 # 7. Convert matrix to terrain using heat map, blue for below zero
 
 #set matrix size
 # start with number of reduction cycles:
 numb.matrix.rows <- function(n, rows=3){
-  if(n > 7){
+  if(n > 17){
     return("too many cycles, please enter smaller number")# This certainly prevents making a matrix
             # that is too big - but it should give a better error message at the approporiate spot
   }else{
@@ -36,9 +37,29 @@ numb.matrix.rows <- function(n, rows=3){
   }
   return(rows)
 }
-#print(numb.matrix.rows(6))
 # now make matrix numb.matrix.rows x same
-n <- 6
-terrain.matrix <- matrix(0, numb.matrix.rows(n), numb.matrix.rows(n))
-print(terrain.matrix)
+n <- 3 # number of reduction cycles
 
+#print(numb.matrix.rows(n))
+terrain.matrix <- matrix(0, numb.matrix.rows(n), numb.matrix.rows(n))
+#print(nrow(terrain.matrix))
+#print(terrain.matrix)
+
+initiate.landscape.matrix <- function(terrain.matrix){
+  max.rows <- nrow(terrain.matrix)# find number of rows
+  #use random number generator to set the corners
+  terrain.matrix[1,1] <- 6
+  terrain.matrix[1,max.rows] <- 6
+  terrain.matrix[max.rows,1] <- 6
+  terrain.matrix[max.rows,max.rows] <- 6
+  return(terrain.matrix)
+}
+print(initiate.landscape.matrix(terrain.matrix))
+#diamond.step <- function(current.matrix){
+#return(updated.matrix)
+
+
+#square.step <- function(current.matrix)
+#return(updated.matrix) 
+
+#cycle.thru.landscape <- function(matrix.so.far)
