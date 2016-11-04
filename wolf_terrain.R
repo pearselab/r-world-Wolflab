@@ -38,7 +38,7 @@ numb.matrix.rows <- function(n, rows=3){
   return(rows)
 }
 # now make matrix numb.matrix.rows x same
-n <- 4 # number of reduction cycles
+n <- 2 # number of reduction cycles
 
 #print(numb.matrix.rows(n))
 terrain.matrix <- matrix(0, numb.matrix.rows(n), numb.matrix.rows(n))
@@ -58,16 +58,23 @@ terrain.matrix <- initiate.landscape.matrix(terrain.matrix) # corner values adde
 #print(terrain.matrix)
 
 
-diamond.step <- function(terrain.matrix){
+diamond.step <- function(tm){
   max.rows <- nrow(terrain.matrix)# find number of rows
   mid.point <- (max.rows+1)/2# find center point
-  terrain.matrix[mid.point,mid.point] <- mean(c(terrain.matrix[1,1], terrain.matrix[1,max.rows], terrain.matrix[max.rows,1], terrain.matrix[max.rows,max.rows]))
-  return(terrain.matrix)
+  tm[mid.point,mid.point] <- mean(c(tm[1,1], tm[1,max.rows], tm[max.rows,1], tm[max.rows,max.rows]))
+  # Above line just finds the center of matrix and makes it mean of 4 corner values
+  return(tm)
 }
-print(diamond.step(terrain.matrix))
+terrain.matrix <- diamond.step(terrain.matrix)
+#print(terrain.matrix)
 
-
-#square.step <- function(current.matrix)
-#return(updated.matrix) 
+square.step <- function(tm){
+  max.rows <- nrow(tm)# find number of rows
+  mid.point <- (max.rows+1)/2# find center point
+  tm[1,mid.point] <- mean(c(tm[1,1], tm[1,max.rows]))# get top midpoint
+  return(tm) 
+}
+terrain.matrix <- square.step(terrain.matrix) 
+print(terrain.matrix)
 
 #cycle.thru.landscape <- function(matrix.so.far)
