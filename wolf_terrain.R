@@ -44,14 +44,15 @@ n <- 2 # number of reduction cycles
 terrain.matrix <- matrix(0, numb.matrix.rows(n), numb.matrix.rows(n))
 #print(nrow(terrain.matrix))
 #print(terrain.matrix)
-
+total.dim <- numb.matrix.rows(n)
+print(total.dim)
 initiate.landscape.matrix <- function(terrain.matrix){
   max.rows <- nrow(terrain.matrix)# find number of rows
   #use random number generator to set the corners
-  terrain.matrix[1,1] <- rnorm(1, 1000, 500)
-  terrain.matrix[1,max.rows] <- rnorm(1, 1000, 500)
-  terrain.matrix[max.rows,1] <- rnorm(1, 1000, 500)
-  terrain.matrix[max.rows,max.rows] <- rnorm(1, 1000, 500)
+  terrain.matrix[1,1] <- rnorm(1, 1000, 1000)
+  terrain.matrix[1,max.rows] <- rnorm(1, 1000, 1000)
+  terrain.matrix[max.rows,1] <- rnorm(1, 1000, 1000)
+  terrain.matrix[max.rows,max.rows] <- rnorm(1, 1000, 1000)
   return(terrain.matrix)
 }
 terrain.matrix <- initiate.landscape.matrix(terrain.matrix) # corner values added
@@ -68,20 +69,51 @@ diamond.step <- function(tm){
 terrain.matrix <- diamond.step(terrain.matrix)
 #print(terrain.matrix)
 
-square.step <- function(tm){
+#now a function to check if a cell is valid
+is.valid.cell <- function(pot.rows, pot.cols, total.dim){
+  if(pot.rows > 0 & pot.rows <= total.dim & pot.cols > 0 & pot.cols <= total.dim){
+    return(TRUE)
+  }else{
+    return(FALSE)
+  }
+}
+
+print(is.valid.cell(10,9,9))
+
+valid.cells <- function(pot.rows, pot.cols, total.dim){
+  good.rows <- pot.rows > 0 & pot.rows <= nrow
+  pot.rows <- pot.rows[good.rows]
+  pot.cols <- pot.cols[good.rows]
+  #...the same thing for columns...
+  #...some sort of return statement
+}
+first.square.step <- function(tm){
   max.rows <- nrow(tm)# find number of rows
   mid.point <- (max.rows+1)/2# find center point
-  # Probably need to create vector of the 4 points first to keep it clean
-  # also need if statement to make sure that if this function is being applied to an external edge,
-  # then only a mean of three, otherwise a mean of four values. Maybe look for out of range?
-  # so far I have this working only for the first big square with all external edges
   tm[1,mid.point] <- mean(c(tm[1,1], tm[1,max.rows], tm[mid.point, mid.point]))# get top midpoint
   tm[mid.point,1] <- mean(c(tm[1,1], tm[max.rows,1], tm[mid.point, mid.point]))# get left midpoint
   tm[mid.point,max.rows] <- mean(c(tm[1, max.rows], tm[max.rows,max.rows], tm[mid.point, mid.point]))# get right midpoint
   tm[max.rows,mid.point] <- mean(c(tm[max.rows,1], tm[max.rows,max.rows], tm[mid.point, mid.point]))# get bottom midpoint
   return(tm) 
 }
-terrain.matrix <- square.step(terrain.matrix) 
+
+general.square.step <- function(terrain.matrix, tm){
+  total.dim <- nrow(terrain.matrix)
+  max.rows <- nrow(tm)# find number of rows in this square
+  mid.point <- (max.rows+1)/2# find center point in this square
+  top.midpoint <- c(tm[1,1], tm[1,max.rows], tm[mid.point, mid.point])
+  if(is.valid.cell(mid.point, mid.point + 3, total.dim))
+  tm[1,mid.point] <- mean(c(tm[1,1], tm[1,max.rows], tm[mid.point, mid.point]))# get top midpoint
+  tm[mid.point,1] <- mean(c(tm[1,1], tm[max.rows,1], tm[mid.point, mid.point]))# get left midpoint
+  tm[mid.point,max.rows] <- mean(c(tm[1, max.rows], tm[max.rows,max.rows], tm[mid.point, mid.point]))# get right midpoint
+  tm[max.rows,mid.point] <- mean(c(tm[max.rows,1], tm[max.rows,max.rows], tm[mid.point, mid.point]))# get bottom midpoint
+  return(tm) 
+}
+
+terrain.matrix <- first.square.step(terrain.matrix) 
 print(terrain.matrix)
 
+#mini.matrix <- terrain.matrix[1:5, 1:5]
+#print(general.square.step(terrain.matrix, mini.matrix, total.dim))
+#print(terrain.matrix[1-3,max.rows])
 #cycle.thru.landscape <- function(matrix.so.far)
