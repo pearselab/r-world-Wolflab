@@ -78,14 +78,18 @@ is.valid.cell <- function(pot.rows, pot.cols, total.dim){
   }
 }
 
-print(is.valid.cell(10,9,9))
+
+ex <- c(10,9,9)
+
+print(is.valid.cell(ex[1], ex[2], ex[3]))
+
 
 valid.cells <- function(pot.rows, pot.cols, total.dim){
-  good.rows <- pot.rows > 0 & pot.rows <= nrow
+  good.rows <- pot.rows > 0 & pot.rows <= total.dim
+  good.cols <- pot.cols > 0 & pot.cols <= total.dim
   pot.rows <- pot.rows[good.rows]
   pot.cols <- pot.cols[good.rows]
-  #...the same thing for columns...
-  #...some sort of return statement
+  return(pot.rows, pot.cols)
 }
 first.square.step <- function(tm){
   max.rows <- nrow(tm)# find number of rows
@@ -97,17 +101,43 @@ first.square.step <- function(tm){
   return(tm) 
 }
 
-general.square.step <- function(terrain.matrix, tm){
+general.square.step <- function(terrain.matrix, row.start, row.end, col.start, col.end){
   total.dim <- nrow(terrain.matrix)
-  max.rows <- nrow(tm)# find number of rows in this square
-  mid.point <- (max.rows+1)/2# find center point in this square
-  top.midpoint <- c(tm[1,1], tm[1,max.rows], tm[mid.point, mid.point])
-  if(is.valid.cell(mid.point, mid.point + 3, total.dim))
-  tm[1,mid.point] <- mean(c(tm[1,1], tm[1,max.rows], tm[mid.point, mid.point]))# get top midpoint
-  tm[mid.point,1] <- mean(c(tm[1,1], tm[max.rows,1], tm[mid.point, mid.point]))# get left midpoint
-  tm[mid.point,max.rows] <- mean(c(tm[1, max.rows], tm[max.rows,max.rows], tm[mid.point, mid.point]))# get right midpoint
-  tm[max.rows,mid.point] <- mean(c(tm[max.rows,1], tm[max.rows,max.rows], tm[mid.point, mid.point]))# get bottom midpoint
-  return(tm) 
+  row.mid <- ((row.end-row.start)/2) + row.start # find center point in this square
+  col.mid <- ((col.end-col.start)/2) + col.start
+  # Calculate top midpoint
+  top.midpoint <- c(terrain.matrix[row.start,col.start], terrain.matrix[row.start,col.end], terrain.matrix[row.mid, col.mid])
+  external.point <- c(row.start - ((row.end-row.start)/2), col.mid) # index center of adjacent minimatrix, which is external point
+  if(is.valid.cell(external.point[1], external.point[2], total.dim)){ #check if external point is in bounds of main matrix
+    top.midpoint <- c(top.midpoint, external.point) # add to vector of points needed to calculate top mid point of minimatrix
+  }
+  terrain.matrix[row.start, col.mid] <- mean(top.midpoint)# get top midpoint
+  
+  # Calculate left midpoint
+  left.midpoint <- c(terrain.matrix[row.start,col.start], terrain.matrix[row.end,col.start], terrain.matrix[row.mid, col.mid])
+  external.point <- c(row.mid, col.start - ((col.end-col.start)/2)) # index center of adjacent minimatrix, which is external point
+  if(is.valid.cell(external.point[1], external.point[2], total.dim)){ #check if external point is in bounds of main matrix
+    left.midpoint <- c(left.midpoint, external.point) # add to vector of points needed to calculate top mid point of minimatrix
+  }
+  terrain.matrix[row.mid, col.start] <- mean(left.midpoint)# get left midpoint
+  
+  # Calculate right midpoint
+  right.midpoint <- c(terrain.matrix[row.start,col.end], terrain.matrix[row.end,col.end], terrain.matrix[row.mid, col.mid])
+  external.point <- c(row.mid, col.start + ((col.end-col.start)/2)) # index center of adjacent minimatrix, which is external point
+  if(is.valid.cell(external.point[1], external.point[2], total.dim)){ #check if external point is in bounds of main matrix
+    right.midpoint <- c(right.midpoint, external.point) # add to vector of points needed to calculate top mid point of minimatrix
+  }
+  terrain.matrix[row.mid, col.end] <- mean(right.midpoint)# get right midpoint 
+
+  # Calculate bottom midpoint
+  bottom.midpoint <- c(terrain.matrix[row.end,col.start], terrain.matrix[row.end,col.end], terrain.matrix[row.mid, col.mid])
+  external.point <- c(row.start + ((row.end-row.start)/2), col.mid) # index center of adjacent minimatrix, which is external point
+  if(is.valid.cell(external.point[1], external.point[2], total.dim)){ #check if external point is in bounds of main matrix
+    bottom.midpoint <- c(bottom.midpoint, external.point) # add to vector of points needed to calculate top mid point of minimatrix
+  }
+  terrain.matrix[row.end, col.mid] <- mean(right.midpoint)# get bottom midpoint
+  
+  return(terrain.matrix) 
 }
 
 terrain.matrix <- first.square.step(terrain.matrix) 
