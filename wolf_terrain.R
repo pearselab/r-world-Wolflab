@@ -66,12 +66,21 @@ diamond.step <- function(tm){
   # Above line just finds the center of matrix and makes it mean of 4 corner values
   return(tm)
 }
-terrain.matrix <- diamond.step(terrain.matrix)
+
 #print(terrain.matrix)
 
+general.diamond.step <- function(tm, row.start, row.end, col.start, col.end){
+  row.mid <- ((row.end-row.start)/2) + row.start # find center row in mini square
+  col.mid <- ((col.end-col.start)/2) + col.start # find center col in mini square
+  tm[row.mid,col.mid] <- mean(c(tm[row.start, col.start], tm[row.start, col.end], tm[row.end, col.start], tm[row.end, col.end]))
+  # Above line just finds the center of matrix and makes it mean of 4 corner values
+  return(tm)
+}
+
+
 #now a function to check if a cell is valid
-is.valid.cell <- function(pot.rows, pot.cols, total.dim){
-  if(pot.rows > 0 & pot.rows <= total.dim & pot.cols > 0 & pot.cols <= total.dim){
+is.valid.cell <- function(pot.row, pot.col, total.dim){
+  if(pot.row > 0 & pot.row <= total.dim & pot.col > 0 & pot.col <= total.dim){
     return(TRUE)
   }else{
     return(FALSE)
@@ -79,17 +88,14 @@ is.valid.cell <- function(pot.rows, pot.cols, total.dim){
 }
 
 
-ex <- c(10,9,9)
-
-print(is.valid.cell(ex[1], ex[2], ex[3]))
-
 
 valid.cells <- function(pot.rows, pot.cols, total.dim){
   good.rows <- pot.rows > 0 & pot.rows <= total.dim
   good.cols <- pot.cols > 0 & pot.cols <= total.dim
   pot.rows <- pot.rows[good.rows]
   pot.cols <- pot.cols[good.rows]
-  return(pot.rows, pot.cols)
+  good.points <- c(pot.rows, pot.cols)
+  return(good.points)
 }
 first.square.step <- function(tm){
   max.rows <- nrow(tm)# find number of rows
@@ -140,10 +146,15 @@ general.square.step <- function(terrain.matrix, row.start, row.end, col.start, c
   return(terrain.matrix) 
 }
 
+terrain.matrix <- diamond.step(terrain.matrix)
+
 terrain.matrix <- first.square.step(terrain.matrix) 
 print(terrain.matrix)
 
-#mini.matrix <- terrain.matrix[1:5, 1:5]
-#print(general.square.step(terrain.matrix, mini.matrix, total.dim))
-#print(terrain.matrix[1-3,max.rows])
+terrain.matrix <- general.square.step(terrain.matrix, 5, 9, 1, 5)
+
+
+terrain.matrix <- general.diamond.step(terrain.matrix, 5, 9, 1, 5)
+print(terrain.matrix)
+# Next
 #cycle.thru.landscape <- function(matrix.so.far)
