@@ -67,8 +67,6 @@ diamond.step <- function(tm){
   return(tm)
 }
 
-#print(terrain.matrix)
-
 general.diamond.step <- function(tm, row.start, row.end, col.start, col.end){
   row.mid <- ((row.end-row.start)/2) + row.start # find center row in mini square
   col.mid <- ((col.end-col.start)/2) + col.start # find center col in mini square
@@ -87,6 +85,9 @@ is.valid.cell <- function(pot.row, pot.col, total.dim){
   }
 }
 
+# function to check if vector of points are valid. Tried many versions returning different values and vectors
+# Need extra functins to unpack the vectors. Very difficult to keep track
+# Maybe try simple version that just checks if point exists in main matrix?
 valid.cells <- function(pot.rows, pot.cols, total.dim){
   good.rows <- pot.rows > 0 & pot.rows <= total.dim
   good.cols <- pot.cols > 0 & pot.cols <= total.dim
@@ -107,8 +108,8 @@ first.square.step <- function(tm){
 
 general.square.step <- function(terrain.matrix, row.start, row.end, col.start, col.end){
   total.dim <- nrow(terrain.matrix)
-  row.mid <- ((row.end-row.start)/2) + row.start # find center point in this square
-  col.mid <- ((col.end-col.start)/2) + col.start
+  row.mid <- ((row.end-row.start)/2) + row.start # find center row in this square
+  col.mid <- ((col.end-col.start)/2) + col.start # find center column in this square
   # Calculate top midpoint
   top.midpoint <- c(terrain.matrix[row.start,col.start], terrain.matrix[row.start,col.end], terrain.matrix[row.mid, col.mid])
   external.point <- c(row.start - ((row.end-row.start)/2), col.mid) # index center of adjacent minimatrix, which is external point
@@ -145,13 +146,8 @@ general.square.step <- function(terrain.matrix, row.start, row.end, col.start, c
 }
 
 terrain.matrix <- diamond.step(terrain.matrix)
-
 terrain.matrix <- first.square.step(terrain.matrix) 
-print(terrain.matrix)
-
 terrain.matrix <- general.square.step(terrain.matrix, 9, 17, 1, 9)
-
-
 terrain.matrix <- general.diamond.step(terrain.matrix, 9, 17, 1, 9)
 print(terrain.matrix)
 # Next
