@@ -38,7 +38,7 @@ numb.matrix.rows <- function(n, rows=3){
   return(rows)
 }
 # now make matrix numb.matrix.rows x same
-n <- 2 # number of reduction cycles
+n <- 3 # number of reduction cycles
 
 #print(numb.matrix.rows(n))
 terrain.matrix <- matrix(0, numb.matrix.rows(n), numb.matrix.rows(n))
@@ -86,8 +86,6 @@ is.valid.cell <- function(pot.row, pot.col, total.dim){
     return(FALSE)
   }
 }
-
-
 
 valid.cells <- function(pot.rows, pot.cols, total.dim){
   good.rows <- pot.rows > 0 & pot.rows <= total.dim
@@ -151,10 +149,12 @@ terrain.matrix <- diamond.step(terrain.matrix)
 terrain.matrix <- first.square.step(terrain.matrix) 
 print(terrain.matrix)
 
-terrain.matrix <- general.square.step(terrain.matrix, 5, 9, 1, 5)
+terrain.matrix <- general.square.step(terrain.matrix, 9, 17, 1, 9)
 
 
-terrain.matrix <- general.diamond.step(terrain.matrix, 5, 9, 1, 5)
+terrain.matrix <- general.diamond.step(terrain.matrix, 9, 17, 1, 9)
 print(terrain.matrix)
 # Next
+# Make general.diamond step work for first round
+# make general.square.step work on first round
 #cycle.thru.landscape <- function(matrix.so.far)
