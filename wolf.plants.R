@@ -5,7 +5,11 @@ setup.plants <- function(repro, survive, comp.mat, names=NULL){
     stop("Reproduction and survival parameters needed for all species")
   #...some more tests...
   repro <- setNames(repro, names)
+  survive <- setNames(survive, names)
   #...what does the line above do? Do you want more like it?
+  #... Nice but should not work for comp.mat - too many elements?
+  #comp.mat <-setNames(comp.mat, names)
+  # no idea what that is doing. Just gave NA. Don't work
   return(list(repro=repro, survive=survive, comp.mat=comp.mat,
               names=names))
 }
@@ -15,4 +19,5 @@ survive <- c(0.5, 0.7, 0.7)
 comp.mat <- matrix(0.5, nrow = 3, ncol = 3)
 names <- list("Ipomopsis", "Cheilanthes", "Papaver")
 
-print(setup.plants(repro, survive, comp.mat, names))
+info <- setup.plants(repro, survive, comp.mat, names)
+info$comp.mat
