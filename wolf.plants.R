@@ -31,9 +31,11 @@ info <- setup.plants(repro, survive, comp.mat, names)
 print(info)
 
 
-# test <- c(0.1, 0.4, 0.6, -.3)
-# if(any(test > 1.0) | (any(test < 0))){
-#   print("messed up")
-# }else{
-#   print("ok mate")
-# }
+test <- c(0.1, 0.4, 0.6, -.3)
+if(any(test > 1.0) | (any(test < 0))){
+  print("messed up")
+}else{
+  print("ok mate")
+}
+
+runif(6,5,17)
