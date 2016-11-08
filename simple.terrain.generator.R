@@ -1,3 +1,5 @@
+# Try to refactor without loops!
+
 #set matrix dimension
 n <- 10
 
@@ -12,6 +14,10 @@ tm[1,1] <- rnorm(1, 1000, 500)
 for(col in 2:n){
   tm[1,col] <- rnorm(1, tm[1, col-1], abs(tm[1, col-1]))
 }
+print(tm)
+
+# tm <- tm[1, 2:n][rnorm(1, tm[1, col-1], abs(tm[1, col-1]))]
+# print(tm)
 
 # do same for remaining cells. But now each cell is rnorm function of mean of value to left and above
 for(row in 2:n){
@@ -24,3 +30,6 @@ for(row in 2:n){
   }
 }
 print(tm)
+
+# Need simple function that takes matrix, loop through everything (use apply!) and convert anything not greater
+# that zero to NA.

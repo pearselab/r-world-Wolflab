@@ -154,3 +154,6 @@ print(terrain.matrix)
 # Make general.diamond step work for first round
 # make general.square.step work on first round
 #cycle.thru.landscape <- function(matrix.so.far)
+
+# Need simple function that takes matrix, loop through everything (use apply!) and convert anything not greater
+# that zero to NA.
