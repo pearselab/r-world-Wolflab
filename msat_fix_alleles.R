@@ -30,18 +30,29 @@ locus.names <- unique(sapply(names(msat.data), locus))
 
 # make changes
 # Tried multple attempts with "with" and lapply. Can get it to throw no errors but nothing gets changed
-# Cannot locate my errors, So lets try a loop:
 
-for(sample in 1:nrow(msat.data)){
-    for(locus in locus.names){ # For each locus
-      two <- paste(locus, "_2",sep = "") # rebuild column index for slot 1
-      one <- paste(locus, "_1",sep = "") # rebuild column index for slot 2
-      if(msat.data[sample,one] != 0 && msat.data[sample,two] == 0){ #Check to see if a zero needs replacing
-        msat.data[sample,two] <- msat.data[sample,one]  # if so, copy allele from slot 1 into slot 2
-    }
-  }
+# This one really should work. No loop. But it only corrects SOME of the genotypes. Not all.
+# Cannot see pattern in output. Seems random. Very strange an iritating
+
+for(locus in locus.names){ # For each locus
+  two <- paste(locus, "_2",sep = "") # rebuild column index for slot 1
+  one <- paste(locus, "_1",sep = "") # rebuild column index for slot 2
+  print(one)
+  print(two)
+  msat.data[,two] <- ifelse(msat.data[,one] > 0 & msat.data[,two] ==0, msat.data[,one], 0)
 }
-write.csv(msat.data, file = paste(file.pathway, "new.msat.csv", sep = ""))
+
+# This ugly loop below works perfectly:
+# for(sample in 1:nrow(msat.data)){
+#     for(locus in locus.names){ # For each locus
+#       two <- paste(locus, "_2",sep = "") # rebuild column index for slot 1
+#       one <- paste(locus, "_1",sep = "") # rebuild column index for slot 2
+#       if(msat.data[sample,one] != 0 && msat.data[sample,two] == 0){ #Check to see if a zero needs replacing
+#         msat.data[sample,two] <- msat.data[sample,one]  # if so, copy allele from slot 1 into slot 2
+#     }
+#   }
+# }
+write.csv(msat.data, file = paste(file.pathway, "new.msat2.csv", sep = ""))
 # msat.data
 #that worked
 
