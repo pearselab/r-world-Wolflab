@@ -34,8 +34,6 @@ locus.names <- unique(sapply(names(msat.data), locus))
 for(locus in locus.names){ # For each locus
   two <- paste(locus, "_2",sep = "") # rebuild column index for slot 1
   one <- paste(locus, "_1",sep = "") # rebuild column index for slot 2
-  print(one)
-  print(two)
   msat.data[,two] <- ifelse((msat.data[,one] > 0 & msat.data[,two] == 0), msat.data[,one], msat.data[,two])
 }
 
@@ -51,7 +49,7 @@ for(locus in locus.names){ # For each locus
 # }
 write.csv(msat.data, file = paste(file.pathway, "new.msat2.csv", sep = ""))
 # msat.data
-#that worked
+
 
 
 
