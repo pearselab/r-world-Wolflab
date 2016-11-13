@@ -29,7 +29,7 @@ locus <- function(x){
 locus.names <- unique(sapply(names(msat.data), locus))
 
 # make changes
-# This version (below) works. Carol's solution. Will, is this  a loop?
+# This version (below) works. Carol's solution. Will, I don't think this is looping through the data frame?
 
 for(locus in locus.names){ # For each locus
   two <- paste(locus, "_2",sep = "") # rebuild column index for slot 1
