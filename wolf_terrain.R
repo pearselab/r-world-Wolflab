@@ -39,7 +39,7 @@ numb.matrix.rows <- function(n, rows=3){
 }
 # now make matrix numb.matrix.rows x same
 n <- 3 # number of reduction cycles
-
+print(numb.matrix.rows(n))
 #print(numb.matrix.rows(n))
 terrain.matrix <- matrix(0, numb.matrix.rows(n), numb.matrix.rows(n))
 #print(nrow(terrain.matrix))
@@ -149,7 +149,7 @@ terrain.matrix <- diamond.step(terrain.matrix)
 terrain.matrix <- first.square.step(terrain.matrix) 
 terrain.matrix <- general.square.step(terrain.matrix, 9, 17, 1, 9)
 terrain.matrix <- general.diamond.step(terrain.matrix, 9, 17, 1, 9)
-print(terrain.matrix)
+image(terrain.matrix)
 # Next
 # Make general.diamond step work for first round
 # make general.square.step work on first round
@@ -157,3 +157,20 @@ print(terrain.matrix)
 
 # Need simple function that takes matrix, loop through everything (use apply!) and convert anything not greater
 # that zero to NA.
+
+
+x <- numb.matrix.rows(n)
+
+# silly having function - it is not quite half
+half <- function(x){
+  return((x+1)/2)
+}
+
+
+#now build vector of matrix slices
+size.vect <- c(x)
+while(n > 3){
+  x <- half(x)
+  size.vect <- append(size.vect, x)
+}
+print(size.vect)
